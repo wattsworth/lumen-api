@@ -34,7 +34,7 @@ class UserGroupsController < ApplicationController
       render :show, status: :ok
     else
       @service.errors = @user_group.errors.full_messages
-      render :show, status: :unprocessable_entity
+      render :show, status: :unprocessable_content
     end
   end
 
@@ -42,7 +42,7 @@ class UserGroupsController < ApplicationController
   def add_member
     @service = AddGroupMember.new
     @service.run(@user_group, params[:user_id])
-    render :show, status: @service.success? ? :ok : :unprocessable_entity
+    render :show, status: @service.success? ? :ok : :unprocessable_content
   end
 
   # PATCH/PUT /user_groups/1/create_member.json
@@ -51,7 +51,7 @@ class UserGroupsController < ApplicationController
     user = User.new(user_params)
     unless user.save
       @service.errors = user.errors.full_messages
-      render :show, status: :unprocessable_entity
+      render :show, status: :unprocessable_content
       return
     end
     @user_group.users << user
@@ -69,21 +69,21 @@ class UserGroupsController < ApplicationController
 
     unless invitation_service.success?
       @service = invitation_service
-      render 'helpers/empty_response', status: :unprocessable_entity
+      render 'helpers/empty_response', status: :unprocessable_content
       return
     end
     user = invitation_service.user
     @service = AddGroupMember.new
     @service.absorb_status(invitation_service)
     @service.run(@user_group, user.id)
-    render :show, status: @service.success? ? :ok : :unprocessable_entity
+    render :show, status: @service.success? ? :ok : :unprocessable_content
   end
 
   # PATCH/PUT /user_groups/1/remove_member.json
   def remove_member
     @service = RemoveGroupMember.new
     @service.run(@user_group, params[:user_id])
-    render :show, status: @service.success? ? :ok : :unprocessable_entity
+    render :show, status: @service.success? ? :ok : :unprocessable_content
   end
 
   # PATCH/PUT /user_groups/1.json
@@ -94,7 +94,7 @@ class UserGroupsController < ApplicationController
       render :show, status: :ok
     else
       @service.errors = @user_group.errors.full_messages
-      render :show, status: :unprocessable_entity
+      render :show, status: :unprocessable_content
     end
   end
 

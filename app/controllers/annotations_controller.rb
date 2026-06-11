@@ -12,7 +12,7 @@ class AnnotationsController < ApplicationController
       @annotations = @node_adapter.get_annotations(@db_stream)
     rescue RuntimeError => e
       @service.add_error("Cannot retrieve annotations [#{e}]")
-      render 'helpers/empty_response', status: :unprocessable_entity
+      render 'helpers/empty_response', status: :unprocessable_content
     end
   end
 
@@ -32,7 +32,7 @@ class AnnotationsController < ApplicationController
       @node_adapter.create_annotation(annotation)
     rescue RuntimeError => e
       @service.add_error("Cannot create annotation [#{e}]")
-      render 'helpers/empty_response', status: :unprocessable_entity and return
+      render 'helpers/empty_response', status: :unprocessable_content and return
     end
     @annotations = [annotation]
     render :index
@@ -48,7 +48,7 @@ class AnnotationsController < ApplicationController
                                                  @db_stream)
     rescue RuntimeError => e
       @service.add_error("Cannot update annotation [#{e}]")
-      render 'helpers/empty_response', status: :unprocessable_entity and return
+      render 'helpers/empty_response', status: :unprocessable_content and return
     end
     @annotations = [annotation]
     render :index
@@ -64,7 +64,7 @@ class AnnotationsController < ApplicationController
       @node_adapter.delete_annotation(annotation)
     rescue RuntimeError => e
       @service.add_error("Cannot delete annotation [#{e}]")
-      render 'helpers/empty_response', status: :unprocessable_entity and return
+      render 'helpers/empty_response', status: :unprocessable_content and return
     end
     render 'helpers/empty_response'
   end
@@ -87,7 +87,7 @@ class AnnotationsController < ApplicationController
     if @node_adapter.nil?
       @service = StubService.new
       @service.add_error("Cannot contact installation")
-      render 'helpers/empty_response', status: :unprocessable_entity
+      render 'helpers/empty_response', status: :unprocessable_content
     end
   end
 end

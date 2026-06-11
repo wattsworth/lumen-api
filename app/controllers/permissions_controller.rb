@@ -18,7 +18,7 @@ class PermissionsController < ApplicationController
     @service = CreatePermission.new
     @service.run(@nilm, params[:role], params[:target], params[:target_id])
     @permission = @service.permission
-    render status: @service.success? ? :ok : :unprocessable_entity
+    render status: @service.success? ? :ok : :unprocessable_content
   end
 
   # DELETE /permissions/1
@@ -27,7 +27,7 @@ class PermissionsController < ApplicationController
     # remove permission from nilm specified by nilm_id
     @service = DestroyPermission.new
     @service.run(@nilm, current_user, params[:id])
-    render status: @service.success? ? :ok : :unprocessable_entity
+    render status: @service.success? ? :ok : :unprocessable_content
   end
 
   # PUT /permissions/create_user.json
@@ -36,14 +36,14 @@ class PermissionsController < ApplicationController
     user = User.new(user_params)
     unless user.save
       @service.errors = user.errors.full_messages
-      render 'helpers/empty_response', status: :unprocessable_entity
+      render 'helpers/empty_response', status: :unprocessable_content
       return
     end
     @service = CreatePermission.new
     @service.run(@nilm, params[:role], 'user', user.id)
     @permission = @service.permission
     @service.add_notice('created user')
-    render :create, status: @service.success? ? :ok : :unprocessable_entity
+    render :create, status: @service.success? ? :ok : :unprocessable_content
   end
 
   # PUT /permissions/invite_user.json
@@ -55,14 +55,14 @@ class PermissionsController < ApplicationController
       params[:redirect_url])
     unless invitation_service.success?
       @service = invitation_service
-      render 'helpers/empty_response', status: :unprocessable_entity
+      render 'helpers/empty_response', status: :unprocessable_content
       return
     end
     @service = CreatePermission.new
     @service.absorb_status(invitation_service)
     @service.run(@nilm, params[:role], 'user', invitation_service.user.id)
     @permission = @service.permission
-    render :create, status: @service.success? ? :ok : :unprocessable_entity
+    render :create, status: @service.success? ? :ok : :unprocessable_content
   end
 
   private

@@ -60,7 +60,7 @@ RSpec.describe NilmsController, type: :request do
         put "/nilms/#{john_nilm.id}.json",
             params: {id: john_nilm.id, name: ""},
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message(/Name/)
         expect(john_nilm.reload.name).to eq("John's NILM")
       end
@@ -153,7 +153,7 @@ RSpec.describe NilmsController, type: :request do
         expect(NodeAdapterFactory).to receive(:from_nilm).and_return nil
         get "/nilms/#{lab_nilm.id}.json",
             headers: john.create_new_auth_token
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
 
       end
     end
@@ -184,7 +184,7 @@ RSpec.describe NilmsController, type: :request do
           params: user_params.merge(nilm_params)
         # since there is no NILM at this address the response is a 422 error
         expect(response.body).to include("cannot contact node at")
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         # make sure the NILM was built
         nilm = Nilm.find_by_name('Test Node')
         expect(nilm).to_not be nil
@@ -201,7 +201,7 @@ RSpec.describe NilmsController, type: :request do
                        scheme: "http", base_uri: "/joule"}
         post "/nilms.json",
              params: user_params.merge(nilm_params)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         # has an error message
         expect(response.body).to match("last_name")
         # make sure the NILM was not built
@@ -220,7 +220,7 @@ RSpec.describe NilmsController, type: :request do
              params: user_params.merge(nilm_params)
         # since there is no NILM at this address the response is a 422 error
         expect(response.body).to include("cannot contact node at")
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         # make sure the NILM was built
         nilm = Nilm.find_by_name('Test Node')
         expect(nilm).to_not be nil
@@ -237,7 +237,7 @@ RSpec.describe NilmsController, type: :request do
                        scheme: "http", base_uri: "/joule"}
         post "/nilms.json",
              params: user_params.merge(nilm_params)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to match("auth_key")
         # make sure the NILM was not built
         expect(Nilm.count).to eq 0
@@ -251,7 +251,7 @@ RSpec.describe NilmsController, type: :request do
                        scheme: "http", base_uri: "/joule"}
         post "/nilms.json",
              params: user_params.merge(nilm_params)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to match("invalid")
         # make sure the NILM was not built
         expect(Nilm.count).to eq 0
@@ -265,7 +265,7 @@ RSpec.describe NilmsController, type: :request do
                        scheme: "http", base_uri: "/joule"}
         post "/nilms.json",
              params: user_params.merge(nilm_params)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to match("port")
         # make sure the NILM was not built
         expect(Nilm.count).to eq 0

@@ -21,12 +21,12 @@ Bundler.require(*Rails.groups)
 module ControlPanel
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.2
 
-    config.active_support.cache_format_version = 7.0
-    config.active_support.disable_to_s_conversion = true
-
-    config.middleware.use Rack::Deflater
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w[assets tasks])
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -40,6 +40,7 @@ module ControlPanel
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
     # but still support cookies for data_app
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
@@ -48,9 +49,5 @@ module ControlPanel
        permission user_group user data_view joule_modules event_stream).each do |service|
       config.autoload_paths << Rails.root.join("app/services/#{service}")
     end
-    #config.autoload_paths << Rails.root.join("app/adapters/nilmdb")
-    #config.autoload_paths << Rails.root.join("app/adapters/joule")
-
-    #config.autoload_paths << Rails.root.join("app/adapters/nilmdb")
   end
 end

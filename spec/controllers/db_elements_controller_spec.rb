@@ -67,7 +67,7 @@ RSpec.describe DbElementsController, type: :request do
             params: { elements: [@elem1.id, @elem2.id].to_json,
                       start_time: 100, end_time: 0 },
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
       it 'only allows access to permitted elements' do
         nilm2 = create(:nilm, admins: [user2])

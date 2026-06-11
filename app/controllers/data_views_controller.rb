@@ -24,7 +24,7 @@ class DataViewsController < ApplicationController
     @service.run(data_view_params, params[:stream_ids],
       current_user, home_view)
     @data_view = @service.data_view
-    render :show, status: @service.success? ? :ok : :unprocessable_entity
+    render :show, status: @service.success? ? :ok : :unprocessable_content
   end
 
   # PATCH/PUT /data_views/1.json
@@ -42,7 +42,7 @@ class DataViewsController < ApplicationController
       render :show, status: :ok
     else
       @service.errors = @data_view.errors.full_messages
-      render :show, status: :unprocessable_entity
+      render :show, status: :unprocessable_content
     end
   end
 

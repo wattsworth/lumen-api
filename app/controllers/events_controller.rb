@@ -11,7 +11,7 @@ class EventsController < ApplicationController
   def update
     @service = EditEventStream.new(@node_adapter)
     @service.run(@event_stream, stream_params)
-    render status: @service.success? ? :ok : :unprocessable_entity
+    render status: @service.success? ? :ok : :unprocessable_content
   end
 
   def data
@@ -57,7 +57,7 @@ class EventsController < ApplicationController
       @start_time = @service.start_time
       @end_time = @service.end_time
     end
-    render status: @service.success? ? :ok : :unprocessable_entity
+    render status: @service.success? ? :ok : :unprocessable_content
 
   end
 
@@ -82,7 +82,7 @@ class EventsController < ApplicationController
     if @node_adapter.nil?
       @service = StubService.new
       @service.add_error("Cannot contact installation")
-      render 'helpers/empty_response', status: :unprocessable_entity
+      render 'helpers/empty_response', status: :unprocessable_content
     end
   end
 

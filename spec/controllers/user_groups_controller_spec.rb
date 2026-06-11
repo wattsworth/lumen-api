@@ -90,7 +90,7 @@ RSpec.describe UserGroupsController, type: :request do
         put "/user_groups/#{group.id}/add_member.json",
             params: { user_id: member1.id },
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message
       end
     end
@@ -137,7 +137,7 @@ RSpec.describe UserGroupsController, type: :request do
                       email: 'valid@url.com', password: 'poorchoice',
                       password_confirmation: 'nomatch' },
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(User.find_by_email('valid@url.com')).to be nil
         expect(response).to have_error_message
       end
@@ -209,7 +209,7 @@ RSpec.describe UserGroupsController, type: :request do
         put "/user_groups/#{group.id}/invite_member.json",
             params: { email: 'test@test.com', redirect_url: 'localhost' },
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message
       end
     end
@@ -251,7 +251,7 @@ RSpec.describe UserGroupsController, type: :request do
         put "/user_groups/#{group.id}/remove_member.json",
             params: { user_id: other_user.id },
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message
       end
     end
@@ -295,7 +295,7 @@ RSpec.describe UserGroupsController, type: :request do
              params: { name: 'CanOnlyBeOne', description: 'some text' },
              headers: @auth_headers
         # can't have duplicate name
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message(/Name/)
         expect(UserGroup.where(name: 'CanOnlyBeOne').count).to eq 1
       end
@@ -364,7 +364,7 @@ RSpec.describe UserGroupsController, type: :request do
         put "/user_groups/#{group.id}.json",
             params: { name: '', description: 'changed' },
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message
         expect(group.reload.name).to eq(orig_name)
       end

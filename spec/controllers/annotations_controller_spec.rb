@@ -146,7 +146,7 @@ RSpec.describe AnnotationsController, type: :request do
         put "/db_streams/#{stream.id}/annotations/#{my_annotation.id}.json",
             headers: owner.create_new_auth_token,
             params: {title: "new title", content: "new content"}
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.header['Content-Type']).to include('application/json')
         expect(response).to have_error_message
       end

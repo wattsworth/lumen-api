@@ -3,9 +3,9 @@
 # controller for NILM objects
 class NilmsController < ApplicationController
   before_action :authenticate_user!, except: [:create]
-  before_action :set_nilm, only: [:update, :show, :refresh, :destroy]
+  before_action :set_nilm, only: [:update, :show, :destroy]
   before_action :authorize_viewer, only: [:show]
-  before_action :authorize_owner, only: [:update, :refresh]
+  before_action :authorize_owner, only: [:update]
   before_action :authorize_admin, only: [:destroy]
   before_action :create_adapter_from_nilm, only: [:show]
 
@@ -22,7 +22,7 @@ class NilmsController < ApplicationController
     if params[:refresh]
       @service = UpdateNilm.new(@node_adapter)
       @service.run(@nilm)
-      render status: @service.success? ? :ok : :unprocessable_entity
+      render status: @service.success? ? :ok : :unprocessable_content
     else
       @service = StubService.new
     end
@@ -42,7 +42,7 @@ class NilmsController < ApplicationController
     if errors.empty?
       render plain: "ok"
     else
-      render plain: errors.join(", "), status: :unprocessable_entity
+      render plain: errors.join(", "), status: :unprocessable_content
     end
   end
 
@@ -59,7 +59,7 @@ class NilmsController < ApplicationController
     else
       @service.errors = @nilm.errors.full_messages +
                         @db.errors.full_messages
-      render :show, status: :unprocessable_entity
+      render :show, status: :unprocessable_content
     end
   end
 
@@ -111,7 +111,7 @@ class NilmsController < ApplicationController
       if @node_adapter.nil?
         @service = StubService.new
         @service.add_error("Cannot contact installation")
-        render 'helpers/empty_response', status: :unprocessable_entity
+        render 'helpers/empty_response', status: :unprocessable_content
       end
     end
 end

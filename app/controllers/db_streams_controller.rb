@@ -9,7 +9,7 @@ class DbStreamsController < ApplicationController
   before_action :create_adapter, only: [:update, :data]
   def index
     if params[:streams].nil?
-      head :unprocessable_entity
+      head :unprocessable_content
       return
     end
 
@@ -26,14 +26,14 @@ class DbStreamsController < ApplicationController
   def update
     @service = EditStream.new(@node_adapter)
     @service.run(@db_stream, stream_params)
-    render status: @service.success? ? :ok : :unprocessable_entity
+    render status: @service.success? ? :ok : :unprocessable_content
   end
 
   def data
     @service = BuildDataset.new(@node_adapter)
     @service.run(@db_stream,params[:start_time].to_i,params[:end_time].to_i)
     unless @service.success?
-      head :unprocessable_entity
+      head :unprocessable_content
       return
     end
     @data = @service.data
@@ -72,7 +72,7 @@ class DbStreamsController < ApplicationController
     if @node_adapter.nil?
       @service = StubService.new
       @service.add_error("Cannot contact installation")
-      render 'helpers/empty_response', status: :unprocessable_entity
+      render 'helpers/empty_response', status: :unprocessable_content
     end
   end
 end

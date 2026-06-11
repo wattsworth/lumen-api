@@ -113,7 +113,7 @@ RSpec.describe DataViewsController, type: :request do
             description: 'missing name', image: '', redux_json: '',
             visibility: 'public', stream_ids: viewed_streams.map {|x| x.id}
           }, headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message
       end
     end
@@ -176,7 +176,7 @@ RSpec.describe DataViewsController, type: :request do
             params: {
                 name: '', home: false
             }, headers: @auth_headers, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(DataView.find(view.id).name).to eq "old name"
       end
     end

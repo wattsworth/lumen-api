@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.5'
+gem 'rails', '~> 7.1'
 
 # Use SCSS for stylesheets
 #gem 'sass-rails' #, '~> 5.0'
@@ -40,6 +40,13 @@ gem 'mini_magick'
 gem 'bootsnap'
 gem 'rubocop-rspec'
 
+# dropped from newer ruby versions so add manually
+gem 'mutex_m' 
+gem 'base64'
+gem 'bigdecimal'
+gem 'csv'
+gem 'observer'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -61,6 +68,10 @@ group :development, :test do
   gem 'capistrano-rbenv'#, '~> 2.0'
   gem 'capistrano-passenger'
   gem 'thin'
+  # dropped from newer ruby versions so add manually
+  gem 'drb'
+  # development web server
+  gem 'puma'
 end
 group :local, :development, :test do
   gem 'factory_bot_rails'

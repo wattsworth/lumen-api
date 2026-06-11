@@ -40,6 +40,6 @@ class DbElementsController < ApplicationController
       @end_time = @service.end_time
     end
 
-    render status: @service.success? ? :ok : :unprocessable_entity
+    render status: @service.success? ? :ok : :unprocessable_content
   end
 end

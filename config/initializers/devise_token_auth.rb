@@ -8,6 +8,10 @@ DeviseTokenAuth.setup do |config|
   # this is set by the angular client
   config.default_password_reset_url = "error-set-by-client"
 
+  # bypass_sign_in tries to write to the session which does not exist
+  # this fixes the error
+  config.bypass_sign_in = false
+
   # By default, users will need to re-authenticate after 2 weeks. This setting
   # determines how long tokens will remain valid after they are issued.
   # config.token_lifespan = 2.weeks

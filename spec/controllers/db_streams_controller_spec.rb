@@ -45,7 +45,7 @@ RSpec.describe DbStreamsController, type: :request do
         get "/db_streams.json",
             params: {},
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
     context 'without permissions' do
@@ -152,7 +152,7 @@ RSpec.describe DbStreamsController, type: :request do
         put "/db_streams/#{@stream.id}.json",
             params: { start_time: 10, name: 'changed' },
             headers: john.create_new_auth_token
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message
       end
     end
@@ -228,7 +228,7 @@ RSpec.describe DbStreamsController, type: :request do
         post "/db_streams/#{@stream.id}/data.csv",
             params: { start_time: 0, end_time: 100},
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
     context 'without viewer permissions' do

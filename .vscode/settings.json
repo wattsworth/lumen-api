@@ -1,7 +1,9 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-   "editor.autoClosingBrackets": false,
+   "editor.autoClosingBrackets": "never",
    "editor.suggestOnTriggerCharacters": false,
     "editor.formatOnType": false,
-    "editor.quickSuggestionsDelay": 100000
+    "editor.quickSuggestionsDelay": 100000,
+    "editor.autoClosingQuotes": "never",
+    "editor.autoSurround": "never"
 }

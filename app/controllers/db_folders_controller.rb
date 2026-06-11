@@ -16,7 +16,7 @@ class DbFoldersController < ApplicationController
   def update
     @service = EditFolder.new(@node_adapter)
     @service.run(@db_folder, folder_params)
-    render status: @service.success? ? :ok : :unprocessable_entity
+    render status: @service.success? ? :ok : :unprocessable_content
   end
 
   private
@@ -45,7 +45,7 @@ class DbFoldersController < ApplicationController
     if @node_adapter.nil?
       @service = StubService.new
       @service.add_error("Cannot contact installation")
-      render 'helpers/empty_response', status: :unprocessable_entity
+      render 'helpers/empty_response', status: :unprocessable_content
     end
   end
 end

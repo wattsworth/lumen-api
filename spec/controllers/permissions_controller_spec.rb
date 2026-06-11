@@ -80,7 +80,7 @@ RSpec.describe PermissionsController, type: :request do
                        target: 'user',
                        target_id: steve.id },
              headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.header['Content-Type']).to include('application/json')
         expect(response).to have_error_message
       end
@@ -131,7 +131,7 @@ RSpec.describe PermissionsController, type: :request do
                       email: 'valid@url.com', password: 'poorchoice',
                       password_confirmation: 'error' },
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message
         user = User.find_by_email('valid@url.com')
         expect(user).to be nil
@@ -223,7 +223,7 @@ RSpec.describe PermissionsController, type: :request do
                       email: 'test@test.com',
                       redirect_url: 'localhost' },
             headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_error_message
 
       end
@@ -274,7 +274,7 @@ RSpec.describe PermissionsController, type: :request do
         delete "/permissions/#{p.id}.json",
                params: { nilm_id: john_nilm.id },
                headers: @auth_headers
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.header['Content-Type']).to include('application/json')
         expect(response).to have_error_message
         expect(john.admins_nilm?(john_nilm)).to be true

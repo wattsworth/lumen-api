@@ -5,11 +5,11 @@ class InvitationsController < Devise::InvitationsController
 
     # no create or edit actions
     def create
-      head status: :unprocessable_entity
+      head status: :unprocessable_content
     end
 
     def edit
-      head status: :unprocessable_entity
+      head status: :unprocessable_content
     end
 
     def update
@@ -19,7 +19,7 @@ class InvitationsController < Devise::InvitationsController
       else
         @service = StubService.new
         @service.add_errors(user.errors.full_messages)
-        render 'helpers/empty_response', status: :unprocessable_entity
+        render 'helpers/empty_response', status: :unprocessable_content
       end
     end
 
