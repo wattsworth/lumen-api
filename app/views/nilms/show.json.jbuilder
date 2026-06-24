@@ -5,6 +5,10 @@ json.data do
   if @nilm.db != nil
     json.max_points_per_plot @nilm.db.max_points_per_plot
     json.max_events_per_plot @nilm.db.max_events_per_plot
+    json.version = @nilm.db.version
+    json.size_db = @nilm.db.size_db
+    json.size_other = @nilm.db.size_other
+    json.size_total = @nilm.db.size_total
     json.available @nilm.db.available
     json.root_folder do
       if @nilm.db.root_folder != nil

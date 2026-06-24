@@ -54,6 +54,25 @@ class DataViewsController < ApplicationController
     render 'helpers/empty_response', status: :ok
   end
 
+  # PUT /data_views/map_joule_objects.json
+  def map_joule_objects
+    # map Joule object ID's to API ID's (see Joule route /folder/map.json for format)
+    # {node_uuid, event_stream_ids, data_stream_ids, folder_ids}
+    @nilm = Nilm.where(node_uuid: params[:node_uuid]).first
+    if @nilm.nil?
+      head :not_found and return
+    end
+    unless current_user.views_nilm?(@nilm)
+      head :unauthorized and return
+    end
+    @service = MapJouleObjects.new()
+    @service.run(@nilm, params[:folder_ids], params[:data_stream_ids], params[:event_stream_ids])
+    ##
+    @folders = @service.folders
+    @event_streams = @service.event_streams
+    @data_streams = @service.data_streams
+  end
+  
   private
 
   def data_view_params

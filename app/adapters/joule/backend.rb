@@ -17,37 +17,45 @@ module Joule
       # TODO handle SSL configuration
     end
 
-    def dbinfo
+    def node_info
       begin
-        resp = self.class.get("#{@url}/version")
+        resp = self.class.get("#{@url}/version.json")
         if not resp.success?
-          Rails.logger.warn "Error retrieving /version for #{@url}: [#{resp.body}]"
+          Rails.logger.warn "Error retrieving /version.json for #{@url}: [#{resp.body}]"
           return nil
         end
-        version = resp.parsed_response
+        version_info = resp.parsed_response
+        # if the site exists but is not a nilm...
+        required_keys = %w(version uuid)
+        unless version_info.respond_to?(:has_key?) &&
+            required_keys.all? {|s| version_info.key? s}
+          Rails.logger.warn "Error #{@url} is not a Joule node"
+          return nil
+        end
 
         resp = self.class.get("#{@url}/dbinfo")
         if not resp.success?
           Rails.logger.warn "Error retrieving /dbinfo for #{@url}: [#{resp.body}]"
           return nil
         end
-        info = resp.parsed_response
+        db_info = resp.parsed_response
       rescue StandardError => e
         Rails.logger.warn "Error retrieving dbinfo for #{@url}: [#{e}]"
         return nil
       end
       # if the site exists but is not a nilm...
       required_keys = %w(size other free reserved)
-      unless info.respond_to?(:has_key?) &&
-          required_keys.all? {|s| info.key? s}
+      unless db_info.respond_to?(:has_key?) &&
+          required_keys.all? {|s| db_info.key? s}
         Rails.logger.warn "Error #{@url} is not a Joule node"
         return nil
       end
       {
-          version: version,
-          size_db: info['size'],
-          size_other: info['other'],
-          size_total: info['size'] + info['other'] + info['free'] + info['reserved']
+          version: version_info['version'],
+          uuid: version_info['uuid'],
+          size_db: db_info['size'],
+          size_other: db_info['other'],
+          size_total: db_info['size'] + db_info['other'] + db_info['free'] + db_info['reserved']
       }
     end
 

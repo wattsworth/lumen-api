@@ -22,7 +22,7 @@ class Nilm < ApplicationRecord
   end
 
   def self.json_keys
-    [:id, :name, :description, :url]
+    [:id, :name, :description, :url, :node_uuid]
   end
 
 end

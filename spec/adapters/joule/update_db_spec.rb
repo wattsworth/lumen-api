@@ -34,7 +34,7 @@ describe Joule::UpdateDb do
     describe 'given the original schema' do
       it 'builds the database' do
         service = Joule::UpdateDb.new(@db)
-        service.run({}, load_schema('0_original_schema'))
+        service.run(load_schema('0_original_schema'))
         expect(@db.root_folder.subfolders.count).to eq 4
         # go through Folder 1 carefully
         folder_1 = @db.root_folder.subfolders.where(name: 'folder_1').first
@@ -76,7 +76,7 @@ describe Joule::UpdateDb do
         puts "##### update schema #######"
         folder_4_last_update = DbFolder.where(name:"folder_4").first.updated_at
         stream_3_1_last_update = DbStream.where(name:"stream_3_1").first.updated_at
-        service.run({}, load_schema('1_updated_schema'))
+        service.run(load_schema('1_updated_schema'))
         # aggregate checks
         expect(@db.root_folder.subfolders.count).to eq 4
         expect(DbElement.count).to eq 14
@@ -105,7 +105,7 @@ describe Joule::UpdateDb do
         puts "##### move schema #######"
         folder_3_orig_id = DbFolder.where(name:"folder_3").first.id
         stream_1_2_orig_id = DbStream.find_by_name("stream_1_2").id
-        service.run({}, load_schema('2_moved_schema'))
+        service.run(load_schema('2_moved_schema'))
         # aggregate checks
         expect(@db.root_folder.subfolders.count).to eq 3
         expect(DbFolder.count).to eq 7
@@ -128,7 +128,7 @@ describe Joule::UpdateDb do
         ### Now update the schema (3) ###
         #################################
         puts "##### delete schema #######"
-        service.run({}, load_schema('3_deleted_schema'))
+        service.run(load_schema('3_deleted_schema'))
         # aggregate checks
         expect(@db.root_folder.subfolders.count).to eq 2
         expect(DbFolder.count).to eq 6
@@ -147,7 +147,7 @@ describe Joule::UpdateDb do
         ### Now update the schema (4) ###
         #################################
         puts "##### add schema #######"
-        service.run({}, load_schema('4_added_schema'))
+        service.run(load_schema('4_added_schema'))
         # aggregate checks
         expect(@db.root_folder.subfolders.count).to eq 3
         expect(DbFolder.count).to eq 7
@@ -167,7 +167,7 @@ describe Joule::UpdateDb do
         ### Now update the schema (5) ###
         #################################
         puts "##### remove and add new with same name #######"
-        service.run({}, load_schema('5_modified_schema'))
+        service.run(load_schema('5_modified_schema'))
         # aggregate checks
         expect(@db.root_folder.subfolders.count).to eq 3
         expect(DbFolder.count).to eq 8

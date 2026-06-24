@@ -12,18 +12,11 @@ module Joule
       super()
     end
 
-    def run(dbinfo, schema)
+    def run(schema)
       # reset the accumulator arrays
       @deleted_event_streams = []
       @deleted_db_streams = []
       @deleted_folders = []
-      # check to make sure dbinfo and schema are set
-      # if either is nil, the database is not available
-      if dbinfo.nil? || schema.nil?
-        add_error("cannot contact node at #{@db.url}")
-        @db.update(available: false)
-        return self
-      end
       # go through the schema and update the database
       @db.root_folder ||= DbFolder.create(db: @db)
       __update_folder(@db.root_folder, schema, '')

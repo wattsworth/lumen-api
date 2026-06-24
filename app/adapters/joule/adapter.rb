@@ -9,7 +9,24 @@ module Joule
     def refresh(nilm)
       db_service = UpdateDb.new(nilm.db)
       result = StubService.new
-      result.absorb_status(db_service.run(@backend.dbinfo, @backend.db_schema))
+      schema = @backend.db_schema
+      node_info = @backend.node_info
+      # check to make sure dbinfo and schema are set
+      # if either is nil, the database is not available
+      if node_info.nil? || schema.nil?
+        result.add_error("cannot contact node at #{nilm.db.url}")
+        nilm.db.update(available: false)
+        return result
+      end
+      # update the nilm attributes based on the node_info
+      # ...creating a separate service for this seems unnecessary
+      nilm.update(node_uuid: node_info[:uuid])
+      nilm.db.update(size_db: node_info[:size_db],
+                     size_other: node_info[:size_other],
+                     size_total: node_info[:size_total],
+                     version: node_info[:version])
+      # update the db object using the schema
+      result.absorb_status(db_service.run(schema))
       return result unless result.success?
       app_service = UpdateApps.new(nilm)
       result.absorb_status(app_service.run(@backend.app_schemas))

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :data_views do
     collection do
       get 'home' #retrieve a user's home data view
+      put 'map_joule_objects'
     end
   end
 

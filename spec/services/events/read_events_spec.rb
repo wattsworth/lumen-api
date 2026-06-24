@@ -71,7 +71,6 @@ RSpec.describe 'ReadEvents' do
       @adapter = Joule::Adapter.new(url, key)
       service = CreateNilm.new(@adapter)
       service.run(name: 'test', url: url, owner: user, key:key)
-
       events1 = EventStream.find_by_path("/Homes/AB Transients")
       events2 = EventStream.find_by_path("/basic/aux/events0")
       service = ReadEvents.new
