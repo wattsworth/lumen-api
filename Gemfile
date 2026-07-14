@@ -39,6 +39,7 @@ gem 'oj'  # fast json
 gem 'mini_magick'
 gem 'bootsnap'
 gem 'rubocop-rspec'
+gem 'cgi' # add back CGI.parse function needed at  [app/controllers/proxy_controller.rb:23]
 
 # dropped from newer ruby versions so add manually
 gem 'mutex_m' 
