@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.1].define(version: 2026_06_19_130434) do
-  create_table "data_apps", id: :integer, default: nil, force: :cascade do |t|
+  create_table "data_apps", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.string "joule_id"
     t.string "name"
@@ -38,7 +38,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_130434) do
     t.index ["nilm_id"], name: "index_data_views_nilms_on_nilm_id"
   end
 
-  create_table "db_decimations", id: :integer, default: nil, force: :cascade do |t|
+  create_table "db_decimations", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.string "data_type"
     t.integer "db_stream_id"
@@ -50,7 +50,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_130434) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
-  create_table "db_elements", id: :integer, default: nil, force: :cascade do |t|
+  create_table "db_elements", force: :cascade do |t|
     t.integer "column"
     t.datetime "created_at", precision: nil, null: false
     t.integer "db_stream_id"
@@ -65,7 +65,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_130434) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
-  create_table "db_folders", id: :integer, default: nil, force: :cascade do |t|
+  create_table "db_folders", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.integer "db_id"
     t.string "description"
@@ -83,7 +83,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_130434) do
     t.index ["joule_id"], name: "index_db_folders_on_joule_id"
   end
 
-  create_table "db_streams", id: :integer, default: nil, force: :cascade do |t|
+  create_table "db_streams", force: :cascade do |t|
     t.boolean "active", default: false
     t.datetime "created_at", precision: nil, null: false
     t.string "data_type"
@@ -122,7 +122,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_130434) do
     t.string "version"
   end
 
-  create_table "event_streams", id: :integer, default: nil, force: :cascade do |t|
+  create_table "event_streams", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "db_folder_id"
     t.integer "db_id"
@@ -141,7 +141,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_130434) do
     t.index ["joule_id"], name: "index_event_streams_on_joule_id"
   end
 
-  create_table "interface_auth_tokens", id: :integer, default: nil, force: :cascade do |t|
+  create_table "interface_auth_tokens", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.integer "data_app_id"
     t.datetime "expiration", precision: nil
@@ -188,7 +188,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_130434) do
     t.string "url"
   end
 
-  create_table "permissions", id: :integer, default: nil, force: :cascade do |t|
+  create_table "permissions", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.integer "nilm_id"
     t.string "role"
@@ -205,7 +205,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_130434) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
-  create_table "users", id: :integer, default: nil, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.boolean "allow_password_change", default: false, null: false
     t.datetime "confirmation_sent_at", precision: nil
     t.string "confirmation_token"
